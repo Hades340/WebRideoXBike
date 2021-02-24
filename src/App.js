@@ -1,23 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
+import React, { Suspense, useEffect, useState } from 'react';
+import Client from './features/client';
+import Admin from  './features/admin';
+import NotFound from './component/notFound/notFound';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+const Photo = React.lazy(() => import('./features/client'));
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Suspense fallback={<div>Loading ...</div>}>
+      <BrowserRouter>
+      	 <Switch>
+      	   	<Route path="/" component={Client} />
+            <Route path="/admin" component={Admin} />
+            <Route component={NotFound} />
+      	 </Switch>
+        
+       </BrowserRouter>
+      </Suspense>
     </div>
   );
 }
